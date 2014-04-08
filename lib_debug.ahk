@@ -24,6 +24,8 @@
 lib_debug(message,item_debug_level=2) ; lib_debug:
 ;------------------------------------------------------------------------------
 {
+    if message =
+        message = [NO MESSAGE]
     debug_level=1
 
     FormatTime, TimeString,, yyyy-MM-dd HH:mm
