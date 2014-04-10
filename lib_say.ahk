@@ -4,12 +4,8 @@ lib_say(say_text) ; lib_say:
 ;------------------------------------------------------------------------------
 {
     Progress, w500 m2 c00 b fs12 zh0, %say_text%, , , Courier New
-    SetTimer, _say_disable_say, -3500
+    Sleep, 3500 ; If we set a timer, it doesn't show up!
 
     return
 }
-
-_say_disable_say:
-    Progress, Off
-return
 
