@@ -5,12 +5,12 @@ SplitPath, A_ScriptName,,, f_FileExt, f_FileNoExt
 ini_file_nopath = %f_FileNoExt%.init
 ini_filename = %A_ScriptDir%\%ini_file_nopath%
 
-;IfNotExist, %ini_filename%
-;    Gosub, build_ini
+IfNotExist, %ini_filename%
+    Gosub, build_ini
 
 my_rotate_icon := my_IniRead({filename: ini_filename
-                            , category: "settings"
-                            , variable: "rotate_icon"})
+                             ,category: "settings"
+                             ,variable: "rotate_icon"})
 
 lib_attention("success! my_rotate_icon is {" . my_rotate_icon . "}")
 
@@ -52,4 +52,13 @@ insist_FileExists(filename)
         lib_die("File {" . filename . "} not found.")
 }
 
+
+;Gui, Add, Button, x182 y150 w100 h30 , Button
+;Gui, Add, Text, x12 y10 w450 h130 , Text
+; Generated using SmartGUI Creator 4.0
+;Gui, Show, x516 y238 h192 w480, New GUI Window
+;Return
+
+;GuiClose:
+;ExitApp
 
