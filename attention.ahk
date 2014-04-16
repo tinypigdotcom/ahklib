@@ -3,20 +3,11 @@ attention(p)
 {
     global
 
-    if(_attention_exists)
-    {
-        MsgBox % A_ThisFunc . " already running, message: " . p.message
-        return
-    }
-
-    _attention_exists=1
-
     insist_NotEmpty({message: p.message, function: A_ThisFunc})
 
-    _attention_wait_count=4
+    _attention_wait_count=3
     Gui _attention:Default
 
-;    Gui, font, s14, Times New Roman
     Gui, font, s14
 
     Gui, Add, Button, default x282 y60 w100 h30 v_attention_WaitCount, OK
@@ -28,7 +19,15 @@ attention(p)
     GuiControl, _attention:, _attention_WaitCount, OK (%_attention_wait_count%)
     GuiControl, Disable, _attention_WaitCount
 
-    SetTimer,_attention_run_down_timer,1000
+    Loop,%_attention_wait_count%
+    {
+        sleep, 1000
+        _attention_wait_count--
+        GuiControl, _attention:, _attention_WaitCount, OK (%_attention_wait_count%)
+    }
+    GuiControl, _attention:, _attention_WaitCount, OK
+    GuiControl, _attention:Enable, _attention_WaitCount
+    WinWaitClose, Attention! ; E-SLP: Sloppy! How do we know it's the one??
 }
 
 
@@ -46,21 +45,6 @@ _attentionButtonOK:
 
 _attention_end:
     Gui _attention:Destroy
-    _attention_exists=0
 return
 
-
-_attention_run_down_timer:
-    _attention_wait_count--
-    if(_attention_wait_count = 0)
-    {
-        GuiControl, _attention:, _attention_WaitCount, OK
-        GuiControl, _attention:Enable, _attention_WaitCount
-        SetTimer,_attention_run_down_timer,off
-    }
-    else
-    {
-        GuiControl, _attention:, _attention_WaitCount, OK (%_attention_wait_count%)
-    }
-return
 
