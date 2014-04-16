@@ -5,7 +5,10 @@ say(p) ; say:
 {
     global
 
-    insist_NotEmpty({message: p.message, function: A_ThisFunc, scriptname: p.scriptname, linenumber: p.linenumber})
+    insist_NotEmpty({ message:    p.message
+                     ,function:   A_ThisFunc
+                     ,scriptname: p.scriptname
+                     ,linenumber: p.linenumber })
 
     Progress, 9:w500 m2 c00 b fs12 zh0, % p.message, , , Courier New
     SetTimer, _say_disable_say, -3500
