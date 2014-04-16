@@ -31,7 +31,7 @@ debug(message,item_debug_level=2) ; debug:
     FormatTime, TimeString,, yyyy-MM-dd HH:mm
     if(debug_level >= item_debug_level)
     {
-        log(message)
+        flog(message)
         _debug_text(message)
     }
     return
