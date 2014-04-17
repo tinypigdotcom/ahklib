@@ -7,7 +7,8 @@ warn(p) ; warn:
                     ,   function: A_ThisFunc
                     , linenumber: p.linenumber })
 
-    p.message := A_ScriptName . ": " . p.message
+    p.message := concat([A_ScriptName, ": ", p.message, " at line ", p.linenumber])
+
 
     Progress, 10:w500 cwFFFF00 m2 c00 b fs12 zh0, % p.message, , , Courier New
     p.debug_level := 1
