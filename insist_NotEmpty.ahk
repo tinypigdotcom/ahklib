@@ -6,7 +6,7 @@ insist_NotEmpty(p)
     p.function   := p.function
     For key, value in p
         if(p[key] = "")
-            die({    message: "blank parameter {" . key . "}"
+            die({    message: concat(["blank parameter {", key, "}"])
                 ,   function: p.function
                 , linenumber: p.linenumber })
 }
