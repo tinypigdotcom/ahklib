@@ -1,9 +1,13 @@
 
 ;------------------------------------------------------------------------------
-die(die_text) ; die:
+die(p) ; die:
 ;------------------------------------------------------------------------------
 {
-    die_text := "FATAL ERROR: " . die_text
+    die_text := "FATAL ERROR: "         . p.message
+              . " in call to function " . p.function
+              . "() from "              . A_ScriptName
+              . " at line "             . p.linenumber
+
     flog(die_text)
     MsgBox, 4096, , %die_text%
     ExitApp

@@ -21,18 +21,25 @@
 ;
 
 ;------------------------------------------------------------------------------
-debug(message,item_debug_level=2) ; debug:
+debug(p) ; debug:
 ;------------------------------------------------------------------------------
 {
-    if message =
-        message = [NO MESSAGE]
-    debug_level=1
+    global global_debug_level
+
+    insist_NotEmpty({    message: p.message
+                    ,   function: A_ThisFunc
+                    , linenumber: p.linenumber })
+
+    if(!global_debug_level)
+        global_debug_level := 1
+    if(!p.debug_level)
+        p.debug_level := 2
 
     FormatTime, TimeString,, yyyy-MM-dd HH:mm
-    if(debug_level >= item_debug_level)
+    if(global_debug_level >= p.debug_level)
     {
-        flog(message)
-        _debug_text(message)
+        flog(p.message)
+        _debug_text(p.message)
     }
     return
 }
@@ -61,7 +68,7 @@ _debug_text(message) ; _debug_text:
     _debug_y_offset += 12
     tmp_debug_y := debug_y - _debug_y_offset
     _debug_show_tip(_debug_text . "    `n", debug_x, tmp_debug_y, tip_channel)
-    SetTimer, _debug_disableTip, 9000
+    SetTimer, _debug_disableTip, -9000
     return
 }
 
@@ -74,7 +81,6 @@ _debug_disableTip:
     tip_channel=3
     _debug_y_offset = 0
     _debug_text=
-    SetTimer, _debug_disableTip, Off
     _debug_clear_tip(tip_channel)
     return
 }
@@ -84,7 +90,9 @@ _debug_disableTip:
 _debug_show_tip(text="",posx="",posy="",channel=1) ; _debug_show_tip:
 ;------------------------------------------------------------------------------
 {
+    global _timers_pending
     ToolTip %text%, %posx%, %posy%, %channel%
+    _timers_pending++
     return
 }
 
@@ -93,7 +101,9 @@ _debug_show_tip(text="",posx="",posy="",channel=1) ; _debug_show_tip:
 _debug_clear_tip(channel=1) ; _debug_clear_tip:
 ;------------------------------------------------------------------------------
 {
+    global _timers_pending
     ToolTip,,,,%channel%
+    _timers_pending--
     return
 }
 

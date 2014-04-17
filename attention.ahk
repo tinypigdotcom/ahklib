@@ -3,7 +3,9 @@ attention(p)
 {
     global
 
-    insist_NotEmpty({message: p.message, function: A_ThisFunc})
+    insist_NotEmpty({ message:    p.message
+                     ,function:   A_ThisFunc
+                     ,linenumber: p.linenumber })
 
     _attention_wait_count=3
     Gui _attention:Default

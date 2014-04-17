@@ -1,7 +1,12 @@
 
-insist_FileExists(filename)
+insist_FileExists(p)
 {
-    if ( !FileExist( filename ) )
-        die("File {" . filename . "} not found.")
+    insist_NotEmpty({   filename: p.filename
+                    ,   function: A_ThisFunc
+                    , linenumber: p.linenumber })
+    if ( !FileExist( p.filename ) )
+        die({    message: "File {" . p.filename . "} not found."
+            ,   function: p.function
+            , linenumber: p.linenumber })
 }
 

@@ -1,15 +1,21 @@
 
-;------------------------------------------------------------------------------
-warn(warn_text) ; warn:
-;------------------------------------------------------------------------------
+warn(p) ; warn:
 {
-    global
-    _warn_text := A_ScriptName . ": " . _warn_text
+    global _timers_pending
 
-    Progress, 10:w500 cwFFFF00 m2 c00 b fs12 zh0, %_warn_text%, , , Courier New
-    debug(_warn_text,1)
+    insist_NotEmpty({    message: p.message
+                    ,   function: A_ThisFunc
+                    , linenumber: p.linenumber })
+
+    p.message := A_ScriptName . ": " . p.message
+
+    Progress, 10:w500 cwFFFF00 m2 c00 b fs12 zh0, % p.message, , , Courier New
+    p.debug_level := 1
+    debug(p)
     SetTimer, _warn_disable_warn, -3500
+
     _timers_pending++
+
     return
 }
 
