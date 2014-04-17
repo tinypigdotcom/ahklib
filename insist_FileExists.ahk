@@ -5,7 +5,7 @@ insist_FileExists(p)
                     ,   function: A_ThisFunc
                     , linenumber: p.linenumber })
     if ( !FileExist( p.filename ) )
-        die({    message: "File {" . p.filename . "} not found."
+        die({    message: concat(["File {", p.filename, "} not found."])
             ,   function: p.function
             , linenumber: p.linenumber })
 }
