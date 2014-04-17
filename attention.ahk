@@ -17,7 +17,7 @@ attention(p)
 
     Gui, Add, Text, x12 y10 w380 h76 , % p.message
     ; Generated using SmartGUI Creator 4.0
-    Gui, Show, x516 y238 h103 w396, % "Attention! from " . A_ScriptName
+    Gui, Show, x516 y238 h103 w396, % concat(["Attention! from ", A_ScriptName])
     GuiControl, _attention:, _attention_WaitCount, OK (%_attention_wait_count%)
     GuiControl, Disable, _attention_WaitCount
 
