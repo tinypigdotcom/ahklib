@@ -11,11 +11,11 @@ f_IniRead(p)
 
     insist_FileExists(p)
 
-    param_list := "`nparams 1:{" . p.filename . "} 2:{" . p.category . "} 3:{" . p.variable . "}"
+    param_list := concat(["`nparams 1:{", p.filename, "} 2:{", p.category, "} 3:{", p.variable, "}"])
 
     IniRead retval, % p.filename, % p.category, % p.variable, "INIREAD_ERR_VAR_NOT_SET"
     if ( InStr(retval, "iniread_err_") )
-        die({    message: retval . param_list
+        die({    message: concat([retval, param_list])
             ,   function: p.function
             , linenumber: p.linenumber })
 
