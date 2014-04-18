@@ -24,7 +24,9 @@ debug(p) ; debug:
 {
     global global_debug_level
 
-    insist_NotEmpty({    message: p.message
+    message := p.param1
+
+    insist_NotEmpty({     param1: message
                     ,   function: A_ThisFunc
                     , linenumber: p.linenumber })
 
@@ -36,8 +38,8 @@ debug(p) ; debug:
     FormatTime, TimeString,, yyyy-MM-dd HH:mm
     if(global_debug_level >= p.debug_level)
     {
-        flog(p.message)
-        _debug_text(p.message)
+        flog(message)
+        _debug_text(message)
     }
     return
 }
@@ -84,18 +86,16 @@ _debug_disableTip:
 
 _debug_show_tip(text="",posx="",posy="",channel=1) ; _debug_show_tip:
 {
-    global _timers_pending
     ToolTip %text%, %posx%, %posy%, %channel%
-    _timers_pending++
+    increment_timers()
     return
 }
 
 
 _debug_clear_tip(channel=1) ; _debug_clear_tip:
 {
-    global _timers_pending
     ToolTip,,,,%channel%
-    _timers_pending--
+    decrement_timers()
     return
 }
 

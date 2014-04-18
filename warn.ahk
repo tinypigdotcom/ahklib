@@ -1,27 +1,28 @@
 
 warn(p) ; warn:
 {
-    global _timers_pending
 
-    insist_NotEmpty({    message: p.message
+    message := p.param1
+
+    insist_NotEmpty({     param1: message
                     ,   function: A_ThisFunc
                     , linenumber: p.linenumber })
 
-    p.message := concat([A_ScriptName, ": ", p.message, " at line ", p.linenumber])
+    message := concat([A_ScriptName, ": ", message, " at line ", p.linenumber])
 
 
-    Progress, 10:w500 cwFFFF00 m2 c00 b fs12 zh0, % p.message, , , Courier New
+    Progress, 10:w500 cwFFFF00 m2 c00 b fs12 zh0, % message, , , Courier New
     p.debug_level := 1
     debug(p)
     SetTimer, _warn_disable_warn, -3500
 
-    _timers_pending++
+    increment_timers()
 
     return
 }
 
 _warn_disable_warn:
     Progress, 10:Off
-    _timers_pending--
+    decrement_timers()
 return
 
