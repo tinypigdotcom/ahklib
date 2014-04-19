@@ -9,20 +9,29 @@ do_macros() ; do_macros:
         FileDelete % newscript
 
         pattern=(\w+)_\((.*)\)
+        comment=^\s*;
         found_pattern=0
+        FileAppend, put_back()`n, % newscript
         Loop, Read, % A_ScriptName, % newscript
         {
             current_line := A_LoopReadLine
-            if(RegExMatch(current_line, pattern, content))
+            if(!RegExMatch(current_line, comment))
             {
-                StringLower, command, content1
-                params := content2
-                current_line := RegExReplace(current_line, pattern, concat([command,"({ param1: ",params,", linenumber: A_LineNumber })"]))
-                found_pattern++
+                if(InStr(A_LoopReadLine,"do_macros()"))
+                    FileAppend, `;%current_line%`n
+                else if(RegExMatch(current_line, pattern, content))
+                {
+                    FileAppend, `;%current_line%`n
+                    StringLower, command, content1
+                    params := content2
+                    current_line := RegExReplace(current_line, pattern, concat([command,"({ param1: ",params,", linenumber: A_LineNumber })"]))
+                    found_pattern++
+                }
             }
-            FileAppend, %current_line%`n
+            if(!InStr(A_LoopReadLine,"do_macros()"))
+                FileAppend, %current_line%`n
         }
-        FileAppend % concat(["FileDelete, ",newscript]) , % newscript
+;        FileAppend % concat(["FileDelete, ",newscript]) , % newscript
         Run % newscript
         ExitApp
     }
