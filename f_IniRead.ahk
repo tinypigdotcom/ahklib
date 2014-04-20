@@ -1,25 +1,41 @@
+; example call:
+;
+; max_vol := f_IniRead({ filename:   my_ini_file
+;                      , category:   "settings"
+;                      , variable:   "max_volume"
+;                      , linenumber: A_LineNumber })
 
 f_IniRead(p)
 {
     p.function := A_ThisFunc
 
     insist_NotEmpty({ filename:   p.filename
-                     ,category:   p.category
-                     ,variable:   p.variable
-                     ,function:   p.function
-                     ,linenumber: p.linenumber })
+                    , category:   p.category
+                    , variable:   p.variable
+                    , function:   p.function
+                    , linenumber: p.linenumber })
 
     insist_FileExists(p)
 
-    param_list := concat(["`nparams 1:{", p.filename, "} 2:{", p.category, "} 3:{", p.variable, "}"])
+    param_list := concat([ "`nparams 1:{"
+                         , p.filename
+                         , "} 2:{"
+                         , p.category
+                         , "} 3:{"
+                         , p.variable
+                         , "}"])
 
-    IniRead retval, % p.filename, % p.category, % p.variable, "INIREAD_ERR_VAR_NOT_SET"
+    IniRead retval
+        , % p.filename
+        , % p.category
+        , % p.variable
+        , "INIREAD_ERR_VAR_NOT_SET"
+
     if ( InStr(retval, "iniread_err_") )
-        die({    message: concat([retval, param_list])
+        die({    message: concat([ retval, param_list ])
             ,   function: p.function
             , linenumber: p.linenumber })
 
     return %retval%
 }
-
 
