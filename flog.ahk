@@ -1,4 +1,7 @@
 
+;E-DTT redefinition of built-in function log() fails silently and call to
+;log() with non-numeric value fails silently.
+
 flog(log_text) ; flog:
 {
     FormatTime, TimeString,, yyyy-MM-dd HH:mm
