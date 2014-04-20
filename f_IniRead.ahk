@@ -19,7 +19,6 @@ f_IniRead(p)
             ,   function: p.function
             , linenumber: p.linenumber })
 
-
     return %retval%
 }
 
