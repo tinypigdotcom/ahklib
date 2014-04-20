@@ -10,7 +10,7 @@ do_macros() ; do_macros:
 
     FileDelete % newscript
 
-    pattern=(\w+)_\((.*)\)
+    pattern=^(\s*)_\(\{\s*(\w+):(.*)\s*\}\)
     comment=^\s*;
     found_pattern=0
     FileAppend, put_back()`n, % newscript
@@ -21,10 +21,13 @@ do_macros() ; do_macros:
         {
             if(RegExMatch(current_line, pattern, content))
             {
-                FileAppend, `;%current_line%`n
-                StringLower, command, content1
-                params := content2
-                current_line := RegExReplace(current_line, pattern, concat([command,"({ param1: ",params,", linenumber: A_LineNumber })"]))
+                content2 = %content2%
+                content3 = %content3%
+                comment_line := RegExReplace(current_line, "^(\s*)", "$1;")
+                FileAppend, %comment_line%`n
+                StringLower, command, content2
+                params := content3
+                current_line := concat([ content1, RegExReplace(current_line, pattern, concat([command,"({ param1: ",params,", linenumber: A_LineNumber })"])) ])
                 found_pattern++
             }
         }
