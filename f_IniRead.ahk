@@ -9,6 +9,8 @@ f_IniRead(p)
 {
     p.function := A_ThisFunc
 
+    insist_Only([ "filename", "category", "variable", "not_found_ok" ], p)
+
     insist_NotEmpty({ filename:   p.filename
                     , category:   p.category
                     , variable:   p.variable
@@ -29,12 +31,17 @@ f_IniRead(p)
         , % p.filename
         , % p.category
         , % p.variable
-        , "INIREAD_ERR_VAR_NOT_SET"
+        , INIREAD_ERR_VAR_NOT_SET
 
-    if ( InStr(retval, "iniread_err_") )
-        die({    message: concat([ retval, param_list ])
-            ,   function: p.function
-            , linenumber: p.linenumber })
+    if ( retval = "INIREAD_ERR_VAR_NOT_FOUND" )
+    {
+        if ( p.not_found_ok )
+            retval := ""
+        else
+            die({    message: concat([retval, param_list])
+                ,   function: p.function
+                , linenumber: p.linenumber })
+    }
 
     return %retval%
 }
