@@ -1,4 +1,30 @@
 
+; Expands statements to include script's line number so you don't have to
+; Examples:
+;
+;           _({say: "HEY!"})
+;
+;               becomes
+;
+;           say({ param1: "HEY!", linenumber: A_LineNumber })
+;
+;
+;           _({debug: "hi", debug_level: 1})
+;
+;               becomes
+;
+;           debug({ param1: "hi", debug_level: 1, linenumber: A_LineNumber })
+;
+; This will work with any function with a param1, including:
+;     * attention()
+;     * debug()
+;     * say()
+;     * warn()
+;
+; But NOT die() because die tries to keep everything "primative" since after
+; all, script is dying.
+
+
 do_macros() ; do_macros:
 {
     ; Don't run if we're the temporary "macro-fied" version
